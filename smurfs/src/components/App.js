@@ -1,7 +1,12 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import { getSmurfs, addNewSmurf } from '../actions';
+import { 
+  getSmurfs, 
+  addNewSmurf, 
+  updateSmurf,
+  deleteSmurf 
+} from '../actions';
 import './App.css';
 /*
  to wire this component up you're going to need a few things.
@@ -38,6 +43,10 @@ class App extends Component {
     this.setState({ name: '', age: '', height: '' });
   }
 
+  deleteSmurf = (e, id) => {
+    e.preventDefault();
+    this.props.deleteSmurf(id)
+  }
   componentDidMount() {
     this.props.getSmurfs();
   }
@@ -58,6 +67,8 @@ class App extends Component {
                   <h2>{smurf.name}</h2>
                   <li>Age: {smurf.age}</li>
                   <li>Height: {smurf.height}</li>
+                  <button>Update</button>
+                  <button className="delete-btn" onClick={e => this.deleteSmurf(e, smurf.id)}>Delete</button>
                 </div>
             );
           })}
@@ -68,8 +79,12 @@ class App extends Component {
 }
 
 const mapStateToProps = state => ({
-  smurfs: state.smurfs
+  smurfs: state.smurfs,
+  updatingSmurf: state.updatingSmurf
 })
 export default connect(
   mapStateToProps, 
-  { getSmurfs, addNewSmurf })(App);
+  { getSmurfs, 
+    addNewSmurf, 
+    updateSmurf, 
+    deleteSmurf })(App);
