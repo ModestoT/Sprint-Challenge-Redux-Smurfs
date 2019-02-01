@@ -15,6 +15,7 @@ export const UPDATING_SMURF_FAILURE = 'UPDATING_SMURF_FAILURE';
 export const DELETING_SMURF = 'DELETING_SMURF';
 export const DELETING_SMURF_SUCCESS = 'DELETING_SMURF_SUCCESS';
 export const DELETING_SMURF_FAILURE = 'DELETING_SMURF_FAILURE';
+export const UPDATE_SMURF = 'UPDATE_SMURF';
 /*
   For this project you'll need at least 2 action creators for the main portion,
    and 2 more for the stretch problem.
@@ -57,3 +58,7 @@ export const deleteSmurf = id => dispatch => {
     .then(res => dispatch({ type: DELETING_SMURF_SUCCESS, payload: res.data }))
     .catch(err => dispatch({ type: DELETING_SMURF_FAILURE, payload: err }))
 };
+
+export const populateForm = () => dispatch => {
+  dispatch({ type: UPDATE_SMURF });
+}

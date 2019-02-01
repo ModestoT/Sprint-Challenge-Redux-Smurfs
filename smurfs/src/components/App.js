@@ -5,7 +5,8 @@ import {
   getSmurfs, 
   addNewSmurf, 
   updateSmurf,
-  deleteSmurf 
+  deleteSmurf,
+  populateForm
 } from '../actions';
 import './App.css';
 /*
@@ -50,12 +51,12 @@ class App extends Component {
   updateSmurf = id => {
     const smurf = { name: this.state.name, age: this.state.age, height: this.state.height };
     this.props.updateSmurf(id, smurf);
-    this.setState({ name: '', age: '', height: '', updatingSmurf: false });
+    this.setState({ name: '', age: '', height: ''});
   }
 
   handleSumbit = e => {
     e.preventDefault();
-    if(this.state.updatingSmurf){
+    if(this.props.updatingSmurf){
       this.updateSmurf(this.state.smurfId)
     } else {
       this.addSmurf();
@@ -66,12 +67,12 @@ class App extends Component {
   populateForm = (e, id)=> {
     e.preventDefault();
     const tempSmurf = this.props.smurfs.find(smurf => smurf.id === id);
+    this.props.populateForm();
     this.setState({ 
       name: tempSmurf.name,
       height: tempSmurf.height,
       age: tempSmurf.age,
-      smurfId: tempSmurf.id,
-      updatingSmurf: true
+      smurfId: tempSmurf.id
     });
   }
 
@@ -83,11 +84,11 @@ class App extends Component {
     return (
       <div className="App">
         <form onSubmit={this.handleSumbit}>
-          <h1>{this.state.updatingSmurf ? 'Update Smurf' : 'Add Smurf'}</h1>
+          <h1>{this.props.updatingSmurf ? 'Update Smurf' : 'Add Smurf'}</h1>
           <input type="text" placeholder="Name" onChange={this.handleInput} value={this.state.name}/>
           <input type="number" placeholder="Age" onChange={this.handleInput} value={this.state.age}/>
           <input type="number" placeholder="Height" onChange={this.handleInput} value={this.state.height}/>
-          <button>{this.state.updatingSmurf ? 'Update Smurf' : 'Add Smurf'}</button>
+          <button>{this.props.updatingSmurf ? 'Update Smurf' : 'Add Smurf'}</button>
         </form>
         <ul className="smurfs-list">
           {this.props.smurfs.map(smurf => {
@@ -116,4 +117,5 @@ export default connect(
   { getSmurfs, 
     addNewSmurf, 
     updateSmurf, 
-    deleteSmurf })(App);
+    deleteSmurf,
+    populateForm })(App);

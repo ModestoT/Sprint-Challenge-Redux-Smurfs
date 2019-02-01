@@ -13,7 +13,8 @@ import {
   UPDATING_SMURF_FAILURE,
   DELETING_SMURF,
   DELETING_SMURF_SUCCESS,
-  DELETING_SMURF_FAILURE
+  DELETING_SMURF_FAILURE,
+  UPDATE_SMURF
 } from '../actions';
 
  const initialState = {
@@ -77,6 +78,11 @@ const smurfReducer = (state = initialState, action) => {
         addingSmurf: false
       }
     //============================ UPDATING SMURF
+    case UPDATE_SMURF: 
+      return {
+        ...state, 
+        updatingSmurf: true
+      }
     case UPDATING_SMURF:
       return {
         ...state,
