@@ -50,7 +50,7 @@ class App extends Component {
   updateSmurf = id => {
     const smurf = { name: this.state.name, age: this.state.age, height: this.state.height };
     this.props.updateSmurf(id, smurf);
-    this.setState({ name: '', age: '', height: '' });
+    this.setState({ name: '', age: '', height: '', updatingSmurf: false });
   }
 
   handleSumbit = e => {
