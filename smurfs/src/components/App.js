@@ -8,7 +8,6 @@ import {
   deleteSmurf 
 } from '../actions';
 import './App.css';
-import UpdateForm from './UpdateForm';
 /*
  to wire this component up you're going to need a few things.
  I'll let you do this part on your own. 
@@ -93,7 +92,7 @@ class App extends Component {
           {this.props.smurfs.map(smurf => {
             return (
                 <div className="smurf" key={smurf.id}> 
-                  <h2>{smurf.name}</h2>
+                  <h2>{smurf.name} Smurf</h2>
                   <li>Age: {smurf.age}</li>
                   <li>Height: {smurf.height}</li>
                   <button onClick={e => this.populateForm(e, smurf.id)}>Update</button>
