@@ -8,6 +8,7 @@ import {
   deleteSmurf 
 } from '../actions';
 import './App.css';
+import UpdateForm from './UpdateForm';
 /*
  to wire this component up you're going to need a few things.
  I'll let you do this part on your own. 
@@ -19,7 +20,7 @@ class App extends Component {
   state = {
       name: '',
       age: '',
-      height: '' 
+      height: ''
   };
 
   handleInput = e => {
@@ -36,8 +37,7 @@ class App extends Component {
         return "invalid input";
     }
   }
-  addSmurf = e => {
-    e.preventDefault();
+  addSmurf = () => {
     const smurf = { name: this.state.name, age: this.state.age, height: this.state.height }
     this.props.addNewSmurf(smurf);
     this.setState({ name: '', age: '', height: '' });
@@ -47,6 +47,35 @@ class App extends Component {
     e.preventDefault();
     this.props.deleteSmurf(id)
   }
+
+  updateSmurf = id => {
+    const smurf = { name: this.state.name, age: this.state.age, height: this.state.height };
+    this.props.updateSmurf(id, smurf);
+    this.setState({ name: '', age: '', height: '' });
+  }
+
+  handleSumbit = e => {
+    e.preventDefault();
+    if(this.state.updatingSmurf){
+      this.updateSmurf(this.state.smurfId)
+    } else {
+      this.addSmurf();
+    }
+  }
+
+
+  populateForm = (e, id)=> {
+    e.preventDefault();
+    const tempSmurf = this.props.smurfs.find(smurf => smurf.id === id);
+    this.setState({ 
+      name: tempSmurf.name,
+      height: tempSmurf.height,
+      age: tempSmurf.age,
+      smurfId: tempSmurf.id,
+      updatingSmurf: true
+    });
+  }
+
   componentDidMount() {
     this.props.getSmurfs();
   }
@@ -54,11 +83,11 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <form onSubmit={e => this.addSmurf(e)}>
-          <input type="text" placeholder="Name" onChange={this.handleInput}/>
-          <input type="number" placeholder="Age" onChange={this.handleInput}/>
-          <input type="number" placeholder="Height" onChange={this.handleInput}/>
-          <button>Add Smurf</button>
+        <form onSubmit={this.handleSumbit}>
+          <input type="text" placeholder="Name" onChange={this.handleInput} value={this.state.name}/>
+          <input type="number" placeholder="Age" onChange={this.handleInput} value={this.state.age}/>
+          <input type="number" placeholder="Height" onChange={this.handleInput} value={this.state.height}/>
+          <button>{this.state.updatingSmurf ? 'Update Smurf' : 'Add Smurf'}</button>
         </form>
         <ul className="smurfs-list">
           {this.props.smurfs.map(smurf => {
@@ -67,7 +96,7 @@ class App extends Component {
                   <h2>{smurf.name}</h2>
                   <li>Age: {smurf.age}</li>
                   <li>Height: {smurf.height}</li>
-                  <button>Update</button>
+                  <button onClick={e => this.populateForm(e, smurf.id)}>Update</button>
                   <button className="delete-btn" onClick={e => this.deleteSmurf(e, smurf.id)}>Delete</button>
                 </div>
             );
