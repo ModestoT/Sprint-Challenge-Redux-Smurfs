@@ -83,6 +83,7 @@ class App extends Component {
     return (
       <div className="App">
         <form onSubmit={this.handleSumbit}>
+          <h1>{this.state.updatingSmurf ? 'Update Smurf' : 'Add Smurf'}</h1>
           <input type="text" placeholder="Name" onChange={this.handleInput} value={this.state.name}/>
           <input type="number" placeholder="Age" onChange={this.handleInput} value={this.state.age}/>
           <input type="number" placeholder="Height" onChange={this.handleInput} value={this.state.height}/>
